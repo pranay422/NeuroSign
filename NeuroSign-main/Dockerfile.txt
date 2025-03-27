@@ -1,0 +1,21 @@
+FROM python:3.10.12-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y git \
+    && git clone https://github.com/pranay422/NeuroSign.git
+
+WORKDIR /app/NeuroSign/
+
+RUN apt-get install -y python3-dev python3-pip python3-venv
+
+RUN pip install --upgrade pip
+
+WORKDIR /app/NeuroSign/NeuroSign-main/
+
+RUN apt-get update && apt-get install portaudio19-dev python3-pyaudio libgl1-mesa-glx libglib2.0-0 libsm6 libxrender1 libxext6 -y && \
+    pip install Flask==3.1.0 SpeechRecognition==3.14.1 pyaudio==0.2.14 opencv-python mediapipe numpy google-generativeai Flask Flask-Cors pymongo python-dotenv google-generativeai setuptools wheel
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
